@@ -1,0 +1,5 @@
+# Passphrase file
+.db_secret
+
+# Platform
+.DS_Store
