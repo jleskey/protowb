@@ -1,0 +1,29 @@
+{% extends 'client/base.html' %}
+
+{% block title %}Index{% endblock %}
+{% block content %}
+    <h2>Entities</h2>
+    <ul>
+        {% for entity in entity_list %}
+        <li>
+            <a href="{% url 'show_entity' entity.id %}">{{ entity.id }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <h2>Documents</h2>
+    <ul>
+        {% for document in document_list %}
+        <li>
+            <a href="{% url 'show_document' document.id %}">{{ document.id }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <h2>Attribute Types</h2>
+    <ul>
+        {% for attribute_type in attribute_type_list %}
+        <li>
+            <a href="{% url 'show_attribute_type' attribute_type.id %}">{{ attribute_type.id }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
