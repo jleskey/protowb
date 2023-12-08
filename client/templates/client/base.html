@@ -11,9 +11,9 @@
 
 <body>
     <nav id="bar">
-        <a class="tab{% if current_project_id == None %} active{% endif %}" href="{% url 'index' %}"">Home</a>
+        <a class="tab{% if current_project_id == None %} active{% endif %}" href="{% url 'index' %}">Home</a>
         {% for project in project_list %}
-            <a class="tab{% if project.id == current_project_id %} active{% endif %}" href="{% url 'project' project.id %}">Project {% firstof project.name project.id %}</a>
+            <a class="tab{% if project.id == current_project_id %} active{% endif %}" href="{% url 'project:view' project.id %}">Project {% firstof project.name project.id %}</a>
         {% endfor %}
     </nav>
     <main>{% block content %}{% endblock %}</main>
