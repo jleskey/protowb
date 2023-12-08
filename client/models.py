@@ -49,16 +49,29 @@ class UserRevision(models.Model):
 class AttributeRevision(UserRevision):
     attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE)
 
+class AttributeState(models.Model):
+    attribute = models.ForeignKey(Attribute, primary_key=True)
+    revision = models.ForeignKey(AttributeRevision)
+
 class RelationshipRevision(UserRevision):
     relationship = models.ForeignKey(Relationship, on_delete=models.CASCADE)
     entity_a = models.ForeignKey(Entity, related_name='entity_a', on_delete=models.CASCADE)
     entity_b = models.ForeignKey(Entity, related_name='entity_b', on_delete=models.CASCADE)
     type = models.TextField(null=True, blank=True)
 
+class RelationshipState(models.Model):
+    relationship = models.ForeignKey(Relationship, primary_key=True)
+    revision = models.ForeignKey(RelationshipRevision)
+
 class DocumentRevision(UserRevision):
     document = models.ForeignKey(Document, on_delete=models.CASCADE)
     is_article = models.BooleanField()
+    article_title = models.CharField(128)
     content = models.TextField(null=True, blank=True)
+
+class DocumentState(models.Model):
+    document = models.ForeignKey(Document, primary_key=True)
+    revision = models.ForeignKey(DocumentRevision)
 
 class DocumentLink(models.Model):
     document_revision = models.ForeignKey(DocumentRevision, on_delete=models.CASCADE)
