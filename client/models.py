@@ -48,6 +48,7 @@ class UserRevision(models.Model):
 
 class AttributeRevision(UserRevision):
     attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE)
+    value = models.TextField(null=True, blank=True)
 
 class AttributeState(models.Model):
     attribute = models.ForeignKey(Attribute, primary_key=True)
