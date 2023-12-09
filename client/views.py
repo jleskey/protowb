@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from .models import AttributeRevision, DocumentRevision, Entity, Document, AttributeType, Project
+from .models import AttributeRevision, DocumentRevision, Entity, AttributeType, Project
 
 def renderDefault(request, path, method='view', options={}):
     option_throughput = {
