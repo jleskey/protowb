@@ -1,5 +1,7 @@
 from django.urls import include, path
 
+from django.shortcuts import redirect
+
 from . import views
 
 def include_interface(view, namespace=None):
@@ -15,6 +17,7 @@ urlpatterns = [
     path('', views.index, name='index'),
 
     path('Project:<int:project_id>', include_interface(views.project, 'project')),
+    path('<int:project_id>', lambda request, project_id : redirect('project:view', project_id=project_id, permanent=True)),
     path('<int:project_id>/<article_title>', include_interface(views.article, 'article')),
 
     path('Note:<int:note_id>', include_interface(views.note, 'note')),
