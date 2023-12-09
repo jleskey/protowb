@@ -13,6 +13,10 @@ def renderDefault(request, path, method='view', options={}):
 
     return render(request, path, option_throughput)
 
+def renderDocumentContent(data):
+    # TODO: Markdown parsing or something
+    return ''.join([f'<p>{paragraph}</p>' for paragraph in data.split('\n\n')])
+
 def index(request, project_id=None):
     return renderDefault(request, "client/index.html", 'view', {
         'project_id': project_id,
@@ -32,23 +36,29 @@ def article(request, project_id, article_title, method='view'):
     # could automatically display the contents of the new page. That being
     # said, it may make more sense to allow users to do this manually.
 
+    article = DocumentRevision.objects.get(
+        article_title=article_title,
+        documentstate__isnull=False,
+    )
+
     return renderDefault(request, "client/article.html", method, {
         'project_id': project_id,
         'article_title': article_title,
-        'article': DocumentRevision.objects.get(
-            article_title=article_title,
-            documentstate__isnull=False,
-        ),
+        'article': article,
+        'content': renderDocumentContent(article.content),
     })
 
 def note(request, note_id, method='view'):
+    note = DocumentRevision.objects.get(
+        document__pk=note_id,
+        is_article=False,
+        documentstate__isnull=False,
+    )
+
     return renderDefault(request, "client/note.html", method, {
         'note_id': note_id,
-        'note': DocumentRevision.objects.get(
-            document__pk=note_id,
-            is_article=False,
-            documentstate__isnull=False,
-        ),
+        'note': note,
+        'content': renderDocumentContent(note.content),
     })
 
 def entity(request, entity_id, method='view'):
