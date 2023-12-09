@@ -4,7 +4,6 @@ from .models import AttributeRevision, DocumentRevision, Entity, Document, Attri
 
 def renderDefault(request, path, method='view', options={}):
     option_throughput = {
-        'project_list': Project.objects.all(),
         'method': method,
     }
 
@@ -17,12 +16,9 @@ def renderDocumentContent(data):
     # TODO: Markdown parsing or something
     return ''.join([f'<p>{paragraph}</p>' for paragraph in data.split('\n\n')])
 
-def index(request, project_id=None):
+def index(request):
     return renderDefault(request, "client/index.html", 'view', {
-        'project_id': project_id,
-        'entity_list': Entity.objects.filter(project_id=project_id),
-        'document_list': Document.objects.filter(project_id=project_id),
-        'attribute_type_list': AttributeType.objects.filter(project_id=project_id),
+        'project_list': Project.objects.all(),
     })
 
 def project(request, project_id, method='view'):
